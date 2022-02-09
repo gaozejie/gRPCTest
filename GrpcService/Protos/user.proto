@@ -1,0 +1,51 @@
+
+syntax = "proto3";
+
+option csharp_namespace = "GrpcService";
+
+package user;
+
+// 需要使用空参数和空返回值时，需要使用这个协议文件
+import "google/protobuf/empty.proto"; 
+
+service User {
+  // 注册
+  rpc Register (UserDTO) returns (CommonResult);
+  // 登陆
+  rpc Login (LoginDTO) returns (LoginResult);
+  // 退出
+  rpc Logout (LogoutDTO) returns (CommonResult);
+  // 获取所有用户
+  rpc GetAllUser (google.protobuf.Empty) returns (AllUser);
+}
+
+message UserDTO {
+	string account = 1;
+	string pwd = 2;
+    string name = 3;
+    int32 age = 4;
+}
+
+message LoginDTO{
+	string accont = 1;
+	string pwd = 2;
+}
+
+message LoginResult{
+	string token = 1;
+}
+
+message LogoutDTO{
+	string token = 1;
+}
+
+message CommonResult {
+	string code = 1;
+    string message = 2;
+}
+
+message AllUser{
+	// repeated 表示集合
+	repeated UserDTO userList = 1; 
+}
+
